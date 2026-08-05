@@ -16,7 +16,7 @@ class Child : public Parent {
 };
 
 int main() {
-  Child c1;
-  c1.getInfo(); //
+  Parent* c1 = new Child(); // Upcasting
+  c1->getInfo(); // Output: child class
   return 0;
 }
