@@ -27,7 +27,7 @@ class Teacher {
     }
 
     //custom copy constructor
-    Teacher(Teacher &t) { 
+    Teacher(conTeacher &t) {
         this->name = t.name;
         this->dept = t.dept;
         this->subject = t.subject;
