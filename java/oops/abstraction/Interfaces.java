@@ -1,41 +1,44 @@
 package oops.abstraction;
 
-interface Car {
+interface ICar {
     default void start() {
         System.out.println("Car started");
     }
-    abstract void accelerate();
+    void accelerateCar();
 
-    abstract void brake();
+    void brakeCar();
 }
 
-class FuelCar extends Car {
+class FuelCarImpl implements ICar {
 
     @Override
-    void accelerate() {
+    public void accelerateCar() {
         System.out.println("Fuel car is accelerating");
     }
 
     @Override
-    void brake() {
+    public void brakeCar() {
         System.out.println("Applied brakes to fuel car");
     }
 }
 
-class ElectricCar extends Car {
+class ElectricCarImpl implements ICar {
 
     @Override
-    void accelerate() {
+    public void accelerateCar() {
         System.out.println("Electric car is accelerating");
     }
 
     @Override
-    void brake() {
+    public void brakeCar() {
         System.out.println("Applied brakes to electric car");
     }
 }
-public class InterfaceClass {
+public class Interfaces {
     static void main() {
-
+        ICar car = new ElectricCarImpl();
+        car.start();
+        car.accelerateCar();
+        car.brakeCar();
     }
 }
