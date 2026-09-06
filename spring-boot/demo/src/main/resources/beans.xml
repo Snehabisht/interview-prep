@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <!--  id mandatory, if not here then we cant get by id, only by type, also 2 ids can be same  -->
+    <bean id = "paymentService" class = "com.example.demo.PaymentService">
+        <constructor-arg index="1" value="3"/>
+        <constructor-arg name="type" value="UPI"/>
+    </bean>
+
+<!--    <bean id = "orderService" class = "com.example.demo.OrderService">-->
+<!--        <constructor-arg ref="paymentService"/>-->
+
+        <bean id = "orderService" class = "com.example.demo.OrderService">
+            <property name="PaymentService" ref="paymentService"/>
+
+
+    </bean>
+<!--    <bean id = "orderService2" class = "com.example.demo.OrderService"></bean>-->
+
+</beans>
