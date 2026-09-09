@@ -1,35 +1,15 @@
-package com.springboot.web_project.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+package com.springboot.web_project.dto;
 
 import java.time.LocalDateTime;
 
-@Entity
-public class Student {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CreateStudentResponseDto {
     private Long id;
     private String name;
-    private String email;
     private int age;
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
+    private String email;
     private int rollNo;
     private String subject;
-    private Boolean deleted;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String message;
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -47,13 +27,8 @@ public class Student {
         this.updatedAt = updatedAt;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public String getName() {
         return name;
@@ -63,20 +38,20 @@ public class Student {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public int getAge() {
         return age;
     }
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getRollNo() {
@@ -93,5 +68,21 @@ public class Student {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
