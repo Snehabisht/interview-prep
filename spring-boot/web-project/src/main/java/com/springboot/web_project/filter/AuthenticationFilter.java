@@ -3,13 +3,14 @@ package com.springboot.web_project.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
-@Order(1)
+// @Component
+//@Order(1)
 public class AuthenticationFilter implements Filter {
 
     @Override

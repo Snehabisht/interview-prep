@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.UUID;
 
-@Component
-@Order(2)
+//@Component
+//@Order(2)
 public class LoggingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -30,7 +30,7 @@ public class LoggingFilter implements Filter {
         chain.doFilter(request, response) using the standard response object.
         By the time chain.doFilter() returns, the servlet or downstream resources
         have already written the data to the stream,
-        committed the response, and closed the buff*/
+        committed the response, and closed the buff - no error but no change in response*/
         httpServletResponse.setHeader("X-Request-ID", requestUUID);
 
 
