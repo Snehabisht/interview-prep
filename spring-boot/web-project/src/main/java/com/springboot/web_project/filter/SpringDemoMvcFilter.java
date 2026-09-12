@@ -9,7 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
+// @Component
 public class SpringDemoMvcFilter extends OncePerRequestFilter {
     /*
         Directly we get HttpServletRequest and HttpServletResponse - no typecasting needed

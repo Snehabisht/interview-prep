@@ -4,7 +4,6 @@ import com.springboot.web_project.dto.CreateStudentRequestDto;
 import com.springboot.web_project.dto.CreateStudentResponseDto;
 import com.springboot.web_project.dto.UpdateStudentRequestDto;
 import com.springboot.web_project.dto.UpdateStudentResponseDto;
-import com.springboot.web_project.entity.Student;
 import com.springboot.web_project.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,6 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<CreateStudentResponseDto> createStudent(@Valid @RequestBody CreateStudentRequestDto createStudentRequestDto){
         CreateStudentResponseDto createdStudent = studentService.createStudent(createStudentRequestDto);
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createdStudent);
