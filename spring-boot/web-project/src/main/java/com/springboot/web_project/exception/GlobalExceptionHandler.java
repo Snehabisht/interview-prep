@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
+    // @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ExceptionResponseDto> handleRuntimeException(
             RuntimeException ex, HttpServletRequest request){
         ExceptionResponseDto exceptionResponseDto = new ExceptionResponseDto(
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
                 .body(exceptionResponseDto);
     }
 
-    @ExceptionHandler(Exception.class)
+    // @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponseDto> handleGenericException(RuntimeException ex, HttpServletRequest request){
         ExceptionResponseDto exceptionResponseDto = new ExceptionResponseDto(
                 LocalDateTime.now(),
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
                 .body(exceptionResponseDto);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+    // @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionResponseDto> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request){
         ExceptionResponseDto exceptionResponseDto = new ExceptionResponseDto(
                 LocalDateTime.now(),
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
                 .body(exceptionResponseDto);
     }
 
-    @ExceptionHandler(DuplicateResourceException.class)
+    // @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ExceptionResponseDto> handleDuplicateResourceException(DuplicateResourceException ex, HttpServletRequest request){
         ExceptionResponseDto exceptionResponseDto = new ExceptionResponseDto(
                 LocalDateTime.now(),
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
                 .body(exceptionResponseDto);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    // @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationExceptionResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request){
         Map<String, String> fieldErrors = new HashMap<>();
 

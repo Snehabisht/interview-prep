@@ -22,6 +22,7 @@ public class StudentServiceImpl implements StudentService{
     }
 
     public CreateStudentResponseDto createStudent(CreateStudentRequestDto createStudentRequestDto){
+        // throw new RuntimeException("exception thrown from target");
         Student student = mapToEntity(createStudentRequestDto);
         if(emailExists(student.getEmail())){
             throw new DuplicateResourceException("Email already exists");
