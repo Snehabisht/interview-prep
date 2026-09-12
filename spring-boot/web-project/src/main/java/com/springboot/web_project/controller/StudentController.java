@@ -5,7 +5,6 @@ import com.springboot.web_project.dto.CreateStudentResponseDto;
 import com.springboot.web_project.dto.UpdateStudentRequestDto;
 import com.springboot.web_project.dto.UpdateStudentResponseDto;
 import com.springboot.web_project.service.StudentService;
-import com.springboot.web_project.service.StudentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

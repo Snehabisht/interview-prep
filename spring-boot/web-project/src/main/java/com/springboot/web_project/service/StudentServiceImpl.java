@@ -1,5 +1,6 @@
 package com.springboot.web_project.service;
 
+import com.springboot.web_project.annotation.TrackExecutionTime;
 import com.springboot.web_project.dto.CreateStudentRequestDto;
 import com.springboot.web_project.dto.CreateStudentResponseDto;
 import com.springboot.web_project.dto.UpdateStudentRequestDto;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 @Component
 public class StudentServiceImpl implements StudentService{
@@ -64,8 +67,15 @@ public class StudentServiceImpl implements StudentService{
         return student;
     }
 
+    @TrackExecutionTime(
+            warnAfter = 1500,
+            operation = "getStudent"
+    )
     // select * from student where id = id and deleted = false
     public CreateStudentResponseDto getStudent(Long id){
+        try {
+            sleep(3000);
+        } catch (InterruptedException e) {}
         Student studentResp = studentRepository
                 .findByIdAndDeletedIsFalse(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student with id "+ id + " is not found"));

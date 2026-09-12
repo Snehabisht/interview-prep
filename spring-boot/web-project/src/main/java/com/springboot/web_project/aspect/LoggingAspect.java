@@ -13,7 +13,7 @@ public class LoggingAspect {
     // within pointcut expression
     // @Before("within(com.springboot.web_project.service.StudentService)")
     // using named pointcut
-    @Before("com.springboot.web_project.aspect.ApplicationPointcuts.serviceLayer()")
+    // @Before("com.springboot.web_project.aspect.ApplicationPointcuts.serviceLayer()")
     public void logBeforeMethod(JoinPoint joinPoint){
         System.out.println("Inside logBeforeMethod");
         // return; //still service method will be called
