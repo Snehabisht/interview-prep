@@ -10,7 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-    @Before("execution(com.springboot.web_project.dto.CreateStudentResponseDto com.springboot.web_project.service.StudentServiceImpl.createStudent(com.springboot.web_project.dto.CreateStudentRequestDto))")
+    // within pointcut expression
+    // @Before("within(com.springboot.web_project.service.StudentService)")
+    // using named pointcut
+    @Before("com.springboot.web_project.aspect.ApplicationPointcuts.serviceLayer()")
     public void logBeforeMethod(JoinPoint joinPoint){
         System.out.println("Inside logBeforeMethod");
         // return; //still service method will be called
@@ -64,8 +67,9 @@ public class LoggingAspect {
         System.out.println("Exception thrown from target");
     }
 
+    // @annotation pointcut expression
     @After(
-            value = "execution(* com.springboot.web_project.service.StudentServiceImpl.createStudent(..)))"
+            "@Annotation(jdk.jfr.Timestamp)"
     )
     public void logAfterMethod(){
         System.out.println("logAfterMethod executed");
