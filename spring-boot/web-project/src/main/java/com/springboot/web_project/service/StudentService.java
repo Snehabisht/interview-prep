@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface StudentService {
 
-    CreateStudentResponseDto createStudent(CreateStudentRequestDto createStudentRequestDto);
+    CreateStudentResponseDto createStudent(CreateStudentRequestDto createStudentRequestDto, Long deptId);
 
     CreateStudentResponseDto getStudent(Long id);
 
@@ -20,5 +20,9 @@ public interface StudentService {
     void deleteStudent(Long id);
 
     void deleteStudentSoftly(Long id);
+
+    void createStudent(CreateStudentRequestDto createStudentRequestDto, String deptName);
+
+
 
 }
