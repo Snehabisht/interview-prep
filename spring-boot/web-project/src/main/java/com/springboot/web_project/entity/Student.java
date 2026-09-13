@@ -1,35 +1,161 @@
 package com.springboot.web_project.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
+@Table(name = "students")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(
+        name = "student_name",
+        nullable = false,
+        length = 100
+    )
     private String name;
+
+    @Column(
+        unique = true,
+        nullable = false,
+        length = 150
+    )
+    @Email
     private String email;
+
     private int age;
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
 
     private int rollNo;
     private String subject;
-    private Boolean deleted;
+
+    @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Transient
+    private String alias;
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public Address getAddress() {
+        return currentAddress;
+    }
+
+    public void setAddress(Address address) {
+        this.currentAddress = address;
+    }
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(
+                    name = "houseNo",
+                    column = @Column(name = "current_house_no")
+            ),
+            @AttributeOverride(
+                    name = "street",
+                    column = @Column(name = "current_street")
+            ),
+            @AttributeOverride(
+                    name = "city",
+                    column = @Column(name = "current_city")
+            ),
+            @AttributeOverride(
+                    name = "state",
+                    column = @Column(name = "current_state")
+            ),
+            @AttributeOverride(
+                    name = "pincode",
+                    column = @Column(name = "current_pincode")
+            )
+    })
+    private Address currentAddress;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "student_skills",
+            joinColumns = @JoinColumn(name = "student_id")
+    )
+    private Set<String> skills;
+
+    public Set<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<String> skills) {
+        this.skills = skills;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    @ElementCollection
+    @CollectionTable(
+            name = "student_address",
+            joinColumns = @JoinColumn(name = "student_id")
+    )
+    private Set<Address> addresses;
+
+    public Address getPermanentAddress() {
+        return permanentAddress;
+    }
+
+    public void setPermanentAddress(Address permanentAddress) {
+        this.permanentAddress = permanentAddress;
+    }
+
+    public Address getCurrentAddress() {
+        return currentAddress;
+    }
+
+    public void setCurrentAddress(Address currentAddress) {
+        this.currentAddress = currentAddress;
+    }
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(
+                    name = "houseNo",
+                    column = @Column(name = "permanent_house_no")
+            ),
+            @AttributeOverride(
+                    name = "street",
+                    column = @Column(name = "permanent_street")
+            ),
+            @AttributeOverride(
+                    name = "city",
+                    column = @Column(name = "permanent_city")
+            ),
+            @AttributeOverride(
+                    name = "state",
+                    column = @Column(name = "permanent_state")
+            ),
+            @AttributeOverride(
+                    name = "pincode",
+                    column = @Column(name = "permanent_pincode")
+            )
+    })
+    private Address permanentAddress;
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
