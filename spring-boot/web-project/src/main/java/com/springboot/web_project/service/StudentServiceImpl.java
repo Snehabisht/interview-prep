@@ -63,7 +63,6 @@ public class StudentServiceImpl implements StudentService{
         student.setSubject(createStudentRequestDto.getSubject());
         student.setCreatedAt(LocalDateTime.now());
         student.setUpdatedAt(LocalDateTime.now());
-        student.setDeleted(false);
         return student;
     }
 
@@ -71,34 +70,31 @@ public class StudentServiceImpl implements StudentService{
             warnAfter = 1500,
             operation = "getStudent"
     )
-    // select * from student where id = id and deleted = false
     public CreateStudentResponseDto getStudent(Long id){
         try {
             sleep(3000);
         } catch (InterruptedException e) {}
         Student studentResp = studentRepository
-                .findByIdAndDeletedIsFalse(id)
+                .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student with id "+ id + " is not found"));
         CreateStudentResponseDto studentRespDto = mapToDto(studentResp);
         return studentRespDto;
     }
 
-    // select * from student where deleted = false
     public List<CreateStudentResponseDto> getAllStudents(){
-        List<Student> studentResp = studentRepository.findByDeletedIsFalse();
+        List<Student> studentResp = studentRepository.findAll();
         List<CreateStudentResponseDto> createStudentResponseDto = studentResp.stream().map(this::mapToDto).toList();
         return createStudentResponseDto;
     }
 
     public UpdateStudentResponseDto updateStudent(Long id, UpdateStudentRequestDto studentReq){
        Student existingStudent = studentRepository
-               .findByIdAndDeletedIsFalse(id)
+               .findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("Student doesnt exist"));
        existingStudent.setName(studentReq.getName());
        existingStudent.setRollNo(studentReq.getRollNo());
        existingStudent.setSubject(studentReq.getSubject());
        existingStudent.setAge(studentReq.getAge());
-       existingStudent.setDeleted(false);
        existingStudent.setUpdatedAt(LocalDateTime.now());
        Student savedStudent = studentRepository.save(existingStudent);
        return mapToUpdateDto(savedStudent);
@@ -118,7 +114,6 @@ public class StudentServiceImpl implements StudentService{
         return updateStudentResponseDto;
     }
 
-    // soft delete also should be deleted
     public void deleteStudent(Long id){
         Student studentToBeDeleted = studentRepository
                 .findById(id)
@@ -129,10 +124,9 @@ public class StudentServiceImpl implements StudentService{
 
     public void deleteStudentSoftly(Long id){
         Student studentToBeDeleted = studentRepository
-                .findByIdAndDeletedIsFalse(id)
+                .findById(id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Student with id " + id + "not found"));
-        studentToBeDeleted.setDeleted(true);
         studentRepository.save(studentToBeDeleted);
     }
 
