@@ -4,6 +4,7 @@ import com.springboot.web_project.dto.CreateStudentRequestDto;
 import com.springboot.web_project.dto.CreateStudentResponseDto;
 import com.springboot.web_project.dto.UpdateStudentRequestDto;
 import com.springboot.web_project.dto.UpdateStudentResponseDto;
+import com.springboot.web_project.entity.Student;
 import com.springboot.web_project.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,9 +23,12 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping
-    public ResponseEntity<CreateStudentResponseDto> createStudent(@Valid @RequestBody CreateStudentRequestDto createStudentRequestDto){
-        CreateStudentResponseDto createdStudent = studentService.createStudent(createStudentRequestDto);
+    @PostMapping("/{deptId}")
+    public ResponseEntity<CreateStudentResponseDto> createStudent(
+            @Valid @RequestBody CreateStudentRequestDto createStudentRequestDto,
+            @PathVariable Long deptId
+            ){
+        CreateStudentResponseDto createdStudent = studentService.createStudent(createStudentRequestDto, deptId);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createdStudent);
@@ -73,6 +77,16 @@ public class StudentController {
     public ResponseEntity<String> deleteStudentSoftly(@PathVariable Long id) {
         studentService.deleteStudentSoftly(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @PostMapping
+    public ResponseEntity<String> createStudentByDeptName(
+            @RequestBody CreateStudentRequestDto student,
+            @RequestParam(name = "departmentName") String departmentName
+    ){
+        studentService.createStudent(student, departmentName);
+        return ResponseEntity.ok().build();
     }
 
 }

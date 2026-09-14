@@ -5,10 +5,13 @@ import com.springboot.web_project.dto.CreateStudentRequestDto;
 import com.springboot.web_project.dto.CreateStudentResponseDto;
 import com.springboot.web_project.dto.UpdateStudentRequestDto;
 import com.springboot.web_project.dto.UpdateStudentResponseDto;
+import com.springboot.web_project.entity.Department;
 import com.springboot.web_project.entity.Student;
 import com.springboot.web_project.exception.exceptions.DuplicateResourceException;
 import com.springboot.web_project.exception.exceptions.ResourceNotFoundException;
+import com.springboot.web_project.repository.DepartmentRepository;
 import com.springboot.web_project.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,19 +22,27 @@ import static java.lang.Thread.sleep;
 @Component
 public class StudentServiceImpl implements StudentService{
     private final StudentRepository studentRepository;
+    private final DepartmentRepository departmentRepository;
 
-    StudentServiceImpl(StudentRepository studentRepository){
+    StudentServiceImpl(StudentRepository studentRepository, DepartmentRepository departmentRepository){
         this.studentRepository = studentRepository;
+        this.departmentRepository = departmentRepository;
     }
 
-    public CreateStudentResponseDto createStudent(CreateStudentRequestDto createStudentRequestDto){
+    public CreateStudentResponseDto createStudent(CreateStudentRequestDto createStudentRequestDto, Long deptId){
         // throw new RuntimeException("exception thrown from target");
         Student student = mapToEntity(createStudentRequestDto);
         if(emailExists(student.getEmail())){
             throw new DuplicateResourceException("Email already exists");
         }
+        Department department = departmentRepository.getDepartmentById(deptId);
+        // have to add both - one to many and many to one relationship
+        student.setDepartment(department);
+        department.getStudents().add(student);
+
         Student createdStudent = studentRepository.save(student);
         System.out.println("student saved");
+
         return mapToDto(createdStudent);
     }
 
@@ -130,6 +141,19 @@ public class StudentServiceImpl implements StudentService{
         studentRepository.save(studentToBeDeleted);
     }
 
+    @Override
+    @Transactional
+    public void createStudent(CreateStudentRequestDto createStudentRequestDto, String deptName) {
+        Department department = new Department();
+        department.setName(deptName);
+        Student student = mapToEntity(createStudentRequestDto);
+
+        student.setDepartment(department);
+        department.getStudents().add(student);
+
+        departmentRepository.save(department);
+        studentRepository.save(student);
+    }
 
 
 }
