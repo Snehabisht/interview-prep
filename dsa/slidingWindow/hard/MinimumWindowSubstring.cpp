@@ -1,31 +1,54 @@
 /*
-    https://leetcode.com/problems/sliding-window-maximum/
+    https://leetcode.com/problems/minimum-window-substring/
 */
 class Solution {
 public:
-    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        list<int> maxSeenIndex;
-        int i = 0 , j = 0;
-        while(j<k){
-            while(!maxSeenIndex.empty() && nums[maxSeenIndex.back()]<=nums[j]){
-                maxSeenIndex.pop_back();
+    // TC : O(N)
+    // SC : O(N)
+    string minWindow(string s, string t) {
+        int n = s.length(), m = t.length();
+        if(n<m) return "";
+        int minWindowLen = INT_MAX;
+        unordered_map<char, int> charFreq;
+        for(char &ch : t){
+            charFreq[ch]++;
+        }
+        int i = 0, j = 0;
+        int charToFind = charFreq.size();
+        int start = 0;
+        while(j<m){
+            if(charFreq.count(s[j])){
+                charFreq[s[j]]--;
+                if(charFreq[s[j]] == 0){
+                    charToFind--;
+                }
             }
-            maxSeenIndex.push_back(j);
             j++;
         }
-        vector<int>res;
-        res.push_back(nums[maxSeenIndex.front()]);
-        int n = nums.size();
+        if(charToFind == 0) return s.substr(0, m);
         while(j<n){
-            while(!maxSeenIndex.empty() && nums[maxSeenIndex.back()]<=nums[j]){
-                maxSeenIndex.pop_back();
+            if(charFreq.count(s[j])){
+                charFreq[s[j]]--;
+                if(charFreq[s[j]] == 0){
+                    charToFind--;
+                }
             }
-            maxSeenIndex.push_back(j);
-            if(maxSeenIndex.front() == i) maxSeenIndex.pop_front();
-            res.push_back(nums[maxSeenIndex.front()]);
+            while(charToFind == 0){
+                int len = j-i+1;
+                if(len<minWindowLen){
+                    minWindowLen = len;
+                    start = i;
+                }
+                if(charFreq.count(s[i])){
+                    charFreq[s[i]]++;
+                    if(charFreq[s[i]] == 1){
+                        charToFind++;
+                    }
+                }
+                i++;
+            }
             j++;
-            i++;
         }
-        return res;
+        return minWindowLen == INT_MAX ? "" : s.substr(start, minWindowLen);
     }
 };
